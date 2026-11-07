@@ -1,0 +1,12 @@
+{
+  "id": "{0BD4401A-79F0-4743-9DD0-BA39C147B745}",
+  "name": "JVStromTile",
+  "type": 3,
+  "vendor": "JV",
+  "aliases": ["Stromzaehler Klappkachel"],
+  "url": "",
+  "parentRequirements": [],
+  "childRequirements": [],
+  "implemented": [],
+  "prefix": "JVST"
+}
