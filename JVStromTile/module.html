@@ -1,0 +1,187 @@
+<script src="/icons.js"></script>
+<style>
+/* JVStromTile V12: bewusst ALLE Styles nur innerhalb dieser Kachel. */
+#jv-strom-root {
+  --jv-background: #fff;
+  --jv-foreground: #171717;
+  --jv-divider: #dedede;
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 100%;
+  /* Reale, deckend weisse Sticky-Flaeche unter dem Symcon-Kopf.
+     -60px + 56px = -4px; gegenueber V11 (-14px) 10px mehr Abstand. */
+  margin: -60px 0 0;
+  padding: 0 9px 14px;
+  background: var(--jv-background);
+  color: var(--jv-foreground);
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.35;
+}
+#jv-strom-root *, #jv-strom-root *::before, #jv-strom-root *::after { box-sizing:border-box; }
+/* Weißer, beim Scrollen fixierter Freiraum unter der systemeigenen Kopfzeile.
+   Bewusst KEIN zweiter, eigener Titel: Fullscreen-Symbol von Symcon bleibt erhalten. */
+#jv-strom-root .jv-header-guard {
+  /* Wichtig: 0px hohe Sticky-Elemente schuetzen beim Scrollen nicht.
+     Ein 56px HOHES, deckend weisses Element blockiert ueberlappende Zeilen.
+     Die negative Root-Margin kompensiert den Platz im ungescrollten Zustand. */
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  height: 56px;
+  margin-left: -9px;
+  width: calc(100% + 18px);
+  background: #fff;
+  pointer-events: none;
+}
+#jv-strom-root .jv-meter-rows { margin-top: 0; position: relative; z-index: 0; }
+#jv-strom-root .jv-row {
+  display: grid;
+  grid-template-columns: 19px minmax(0,1fr) auto;
+  gap: 10px;
+  align-items: center;
+  width: 100%;
+  min-height: 40px;
+  padding: 4px 5px;
+  margin: 0;
+  line-height: 1.35;
+}
+#jv-strom-root .jv-icon {
+  display:flex; width:19px; height:19px;
+  align-items:center; justify-content:center;
+  flex:none; color:inherit;
+}
+/* Original-Symcon-Icons: Font Awesome Classic Light, keine SVG-Eigenzeichnungen. */
+#jv-strom-root .jv-icon i { font-size:19px; font-style:normal; }
+#jv-strom-root .jv-icon svg.svg-inline--fa { display:block; width:19px; height:19px; }
+#jv-strom-root .jv-label {
+  display: flex; min-width:0; align-items:center; flex-wrap:wrap;
+  gap: 8px;
+  font:inherit;
+  font-size:14px;
+  line-height:1.35;
+  overflow-wrap:break-word;
+}
+#jv-strom-root .jv-value {
+  font:inherit;
+  font-size:14px;
+  line-height:1.35;
+  white-space:nowrap;
+  text-align:right;
+  font-variant-numeric:tabular-nums;
+}
+#jv-strom-root .jv-trend {
+  display:inline-flex; align-items:center; justify-content:center;
+  width:21px; height:21px;
+  padding:0; margin:0;
+  border:0; border-radius:2px;
+  color:inherit; background:transparent;
+  font:inherit; cursor:pointer;
+}
+#jv-strom-root .jv-trend i {font-size:19px;font-style:normal;}
+#jv-strom-root .jv-trend svg.svg-inline--fa {width:19px;height:19px;display:block;}
+#jv-strom-root .jv-trend:focus-visible,
+#jv-strom-root .jv-toggle:focus-visible { outline:2px solid currentColor; outline-offset:1px; }
+#jv-strom-root .jv-section {
+  border-top:1px solid var(--jv-divider);
+  margin-top:9px;
+}
+#jv-strom-root .jv-toggle {
+  display:flex; width:100%; min-height:42px;
+  align-items:center; gap:11px;
+  padding:8px 5px;
+  margin:0;
+  border:0; border-radius:0;
+  color:inherit; background:transparent;
+  font:inherit; font-size:14px; font-weight:400;
+  text-align:left; cursor:pointer;
+}
+#jv-strom-root .jv-chevron {
+  display:block; width:7px; height:7px;
+  flex:none; margin-left:3px;
+  border-right:1.4px solid currentColor;
+  border-bottom:1.4px solid currentColor;
+  transform:rotate(-45deg);
+  transition:transform .15s ease;
+}
+#jv-strom-root .jv-toggle[aria-expanded="true"] .jv-chevron {transform:rotate(45deg);}
+#jv-strom-root .jv-contents {
+  border-top:1px solid var(--jv-divider);
+  margin:0; padding:3px 0 8px 14px;
+}
+#jv-strom-root .jv-contents[hidden] {display:none !important;}
+#jv-strom-root .jv-contents .jv-row {min-height:37px;}
+#jv-strom-root .jv-frost-row {
+  margin-top:5px;
+  padding-top:10px;
+  border-top:1px solid var(--jv-divider);
+}
+#jv-strom-root .jv-switch { display:inline-block; position:relative; width:45px; height:25px; cursor:pointer; }
+#jv-strom-root .jv-switch input {opacity:0; position:absolute; width:100%; height:100%; margin:0; cursor:pointer; z-index:1;}
+#jv-strom-root .jv-track {
+  display:block; width:45px; height:25px; border-radius:15px;
+  background:#b9b9b9; transition:background .12s;
+}
+#jv-strom-root .jv-track::before {
+  content:""; display:block; position:absolute; top:3px; left:3px;
+  width:19px; height:19px; background:#fff;
+  border-radius:50%; box-shadow:0 1px 3px #0003;
+  transition:transform .12s;
+}
+#jv-strom-root .jv-switch input:checked + .jv-track {background:#00bfae;}
+#jv-strom-root .jv-switch input:checked + .jv-track::before {transform:translateX(20px);}
+#jv-strom-root .jv-switch input:focus-visible + .jv-track {outline:2px solid currentColor; outline-offset:2px;}
+#jv-strom-root .jv-switch input:disabled + .jv-track {opacity:.45; cursor:not-allowed;}
+@media(max-width:410px) {
+  #jv-strom-root {padding-left:4px; padding-right:4px; font-size:13px;}
+  #jv-strom-root .jv-row {grid-template-columns:18px minmax(0,1fr) auto; gap:7px; padding-left:4px; padding-right:4px;}
+  #jv-strom-root .jv-label, #jv-strom-root .jv-value, #jv-strom-root .jv-toggle {font-size:13px;}
+  #jv-strom-root .jv-header-guard {height:56px; margin-left:-4px; width:calc(100% + 8px);}
+}
+</style>
+<div id="jv-strom-root" class="jv-strom-root">
+  <div class="jv-header-guard" aria-hidden="true"></div>
+  <div class="jv-meter-rows">__METER_ROWS__</div>
+  <div class="jv-section">
+    <button type="button" class="jv-toggle" id="jv-toggle" aria-expanded="false"
+      aria-controls="jv-contents" onclick="jvToggleGroup(this)">
+      <span class="jv-chevron" aria-hidden="true"></span><span>Stromverbrauch Einzelgeräte</span>
+    </button>
+    <div class="jv-contents" id="jv-contents" hidden>
+      __DEVICE_ROWS__
+      __FROST_ROW__
+    </div>
+  </div>
+</div>
+<script>
+  function jvToggleGroup(button) {
+    var contents = document.getElementById('jv-contents');
+    if (!contents) return;
+    var next = button.getAttribute('aria-expanded') !== 'true';
+    contents.hidden = !next;
+    button.setAttribute('aria-expanded', String(next));
+  }
+  function jvSwitchFrost(value) {
+    requestAction('Frost', !!value);
+  }
+  function handleMessage(data) {
+    var values;
+    try { values = typeof data === 'string' ? JSON.parse(data) : data; }
+    catch (e) { return; }
+    if (!values || typeof values !== 'object') return;
+    Object.keys(values).forEach(function(key) {
+      var value = values[key];
+      if (key === 'frost') {
+        var frost = document.getElementById('jv-frost');
+        if (frost) frost.checked = !!value;
+      } else if (key === 'frostEnabled') {
+        var frostSwitch = document.getElementById('jv-frost');
+        if (frostSwitch) frostSwitch.disabled = !value;
+      } else if (/^v[0-9]+$/.test(key)) {
+        var element = document.getElementById('jv-' + key.replace(/^v/, 'v-'));
+        if (element) element.textContent = String(value);
+      }
+    });
+  }
+</script>
