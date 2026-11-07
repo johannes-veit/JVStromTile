@@ -3,7 +3,9 @@
   "author": "JV",
   "name": "JV Stromzaehler Klappkachel",
   "url": "",
-  "compatibility": {"version": "9.0"},
+  "compatibility": {
+    "version": "9.0"
+  },
   "version": "1.2",
   "build": 3,
   "date": 1794052800
