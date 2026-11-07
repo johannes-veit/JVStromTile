@@ -3,7 +3,9 @@
   "name": "JVStromTile",
   "type": 3,
   "vendor": "JV",
-  "aliases": ["Stromzaehler Klappkachel"],
+  "aliases": [
+    "Stromzaehler Klappkachel"
+  ],
   "url": "",
   "parentRequirements": [],
   "childRequirements": [],
